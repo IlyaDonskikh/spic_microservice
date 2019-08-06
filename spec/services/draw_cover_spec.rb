@@ -1,6 +1,5 @@
 RSpec.describe SharingPicturesConsumer do
-  it "should create file jpg" do
-    p '22'
+  it 'should create file jpg' do
     cover = DrawCover.call
 
     expect(nil).to eq('file.jpg')

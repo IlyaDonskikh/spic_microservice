@@ -2,8 +2,12 @@
 
 # Setup
 require 'dotenv'
-require 'dotenv'
-Dotenv.load('.env.development')
+Dotenv.load
+
+Dir[File.dirname(__FILE__) + '/config/initializers/*.rb'].each do |file|
+  require file
+end
+
 ENV['RACK_ENV'] ||= 'development'
 ENV['KARAFKA_ENV'] ||= ENV['RACK_ENV']
 Bundler.require(:default, ENV['KARAFKA_ENV'])
@@ -15,8 +19,6 @@ class KarafkaApp < Karafka::App
     config.client_id = ENV['KAFKA_CLIENT_ID']
     config.backend = :inline
     config.batch_fetching = true
-    # Uncomment this for Rails app integration
-    # config.logger = Rails.logger
   end
 
   after_init do |config|
@@ -24,10 +26,6 @@ class KarafkaApp < Karafka::App
     # initialization
   end
 
-  # Comment out this part if you are not using instrumentation and/or you are not
-  # interested in logging events for certain environments. Since instrumentation
-  # notifications add extra boilerplate, if you want to achieve max performance,
-  # listen to only what you really need for given environment.
   Karafka.monitor.subscribe(Karafka::Instrumentation::Listener)
 
   consumer_groups.draw do

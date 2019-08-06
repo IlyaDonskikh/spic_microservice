@@ -11,4 +11,4 @@
 .DS_Store
 
 ## Env
-.env.development
+.env
