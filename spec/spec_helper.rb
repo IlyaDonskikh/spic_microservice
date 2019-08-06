@@ -13,7 +13,10 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-require 'karafka/testing/rspec/helpers'
+# require 'karafka/testing/rspec/helpers'
+ENV['RACK_ENV'] ||= 'test'
+
+require './karafka.rb'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

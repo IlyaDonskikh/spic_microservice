@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-
 # Setup
+require 'dotenv'
 require 'dotenv'
 Dotenv.load('.env.development')
 ENV['RACK_ENV'] ||= 'development'
