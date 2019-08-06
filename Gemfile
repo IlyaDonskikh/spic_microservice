@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'karafka', '1.2.13'
+gem 'rubocop'
 gem 'carrierwave'
 gem 'fog-aws'
 
