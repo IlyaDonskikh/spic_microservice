@@ -1,5 +1,5 @@
 class SharingPicturesConsumer < ApplicationConsumer
   def consume
-    puts params
+    DrawCover.call params
   end
 end
