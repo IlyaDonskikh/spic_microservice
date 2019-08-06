@@ -10,8 +10,6 @@ Bundler.require(:default, ENV['KARAFKA_ENV'])
 Karafka::Loader.load(Karafka::App.root)
 
 class KarafkaApp < Karafka::App
-  p ENV['KAFKA_SEED_BROKERS']
-
   setup do |config|
     config.kafka.seed_brokers = ENV['KAFKA_SEED_BROKERS'].try(:split, ',')
     config.client_id = ENV['KAFKA_CLIENT_ID']
