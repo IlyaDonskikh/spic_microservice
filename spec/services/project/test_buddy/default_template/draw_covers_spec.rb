@@ -4,8 +4,12 @@ RSpec.describe Project::TestBuddy::DefaultTemplate::DrawCovers do
       content: [
         { 'title' => 'Hello',
           'teams' => [
-            { 'name' => 'Mike', 'score' => 8, 'total' => {'won' => 0, 'lost' => { 'today' => 5 }}},
-            { 'name' => 'Bob', 'score' => 8, 'total' => {'won' => 6, 'lost' => { 'today' => 6 }}},
+            { 'name' => 'Mike', 'score' => 8, 'total' =>
+              { 'won' => 0, 'lost' => { 'today' => 5 } }
+            },
+            { 'name' => 'Bob', 'score' => 5, 'total' =>
+              { 'won' => 6, 'lost' => { 'today' => 6 } }
+            }
           ]
         }
       ]
