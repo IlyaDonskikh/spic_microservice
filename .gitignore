@@ -12,3 +12,11 @@
 
 ## Env
 .env
+
+## Interactor
+app/interactors/project/*
+!app/interactors/project/test_buddy
+
+## Templates
+app/templates/*
+!app/templates/test_buddy
