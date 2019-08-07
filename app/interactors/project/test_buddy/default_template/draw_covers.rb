@@ -7,7 +7,7 @@ module Project
           'title',
           'teams' =>
             [ 'name', 'score', 'total' => ['won', 'lost' => 'today']]
-        ]
+        ].freeze
 
         ## Etc.
         private
@@ -18,11 +18,11 @@ module Project
             super
           end
 
-          def assing_partner_attrs_by(class_name_string)
-            attrs = class_name_string.split('::')
+          def assing_partner_attrs_by(class_name)
+            attrs = class_name.split('::')
 
-            context.partner_name = attrs[1]
-            context.template_name = attrs[2].to_s.gsub('Template', '')
+            context.partner_name = attrs[1].to_s.to_snakecase
+            context.template_name = attrs[2].to_s.gsub('Template', '').to_snakecase
             context.content = context['content']
           end
 
@@ -41,18 +41,19 @@ module Project
               if field.is_a? String
                 content_item = content.find { |ci| ci[field] }
 
-                context.fail! message: "content_#{field}" unless content_item
+                context.fail! message: "exists_#{field}" unless content_item
               elsif field.is_a? Hash
                 check_content_existence_by(field, context.content)
               end
             end
           end
 
+          ## BEGIN. Recursion content check up
           def check_content_existence_by(item, content)
             item.each do |key, value|
               content = find_current_content_scope_by(content, key)
               if value.is_a? String
-                context.fail! message: "exists_#{value}" unless content[value]
+                check_current_content_for_string(value, content)
               elsif value.is_a? Array
                 proccess_array_value(value, content)
               end
@@ -60,7 +61,7 @@ module Project
           end
 
           def proccess_array_value(value, content)
-            grab_requirement_value_list_on_current_level(value).each do |val|
+            grab_requirement_value_list_on_current_level_by(value).each do |val|
               case val.class.to_s
               when 'String' then check_current_content_for_string(val, content)
               when 'Hash' then process_current_content_for_hash(val, content)
@@ -69,7 +70,7 @@ module Project
             end
           end
 
-          def grab_requirement_value_list_on_current_level(values)
+          def grab_requirement_value_list_on_current_level_by(values)
             items = values
 
             values.each do |value|
@@ -82,9 +83,7 @@ module Project
           def process_current_content_for_hash(value, content)
             content = [content] if content.is_a? Hash
 
-            content.each do |item|
-              check_content_existence_by(value, item)
-            end
+            content.each { |item| check_content_existence_by(value, item) }
           end
 
           def check_current_content_for_string(value, content)
@@ -96,9 +95,9 @@ module Project
           end
 
           def find_current_content_scope_by(content, key)
-            if content.is_a? Array
-              content = extract_content_item_by(content, key)
-            elsif  content.is_a? Hash
+            content = content.find { |item| item[key] } if content.is_a?(Array)
+
+            if content.is_a? Hash
               content = content[key]
             else
               context.fail! message: "structure_format_#{key}"
@@ -106,14 +105,7 @@ module Project
 
             content
           end
-
-          def extract_content_item_by(content, key)
-            item = content.find { |item| item[key] }
-
-            context.fail! message: "structure_#{key}" unless item
-
-            item[key]
-          end
+          ## END. Recursion content check up
       end
     end
   end
