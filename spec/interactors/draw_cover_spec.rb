@@ -3,17 +3,19 @@ RSpec.describe DrawCover do
     @project = 'test_buddy'
     @template = 'default'
     @sharing_type = DrawCovers::SHARING_TYPES[0]
+    @resource_type = 'test'
+    @resource_id = 1
   end
 
-  it 'should create file jpg' do
+  it 'should create a file' do
     cover = DrawCover.call(
       project: @project,
       template: @template,
-      sharing_type: @sharing_type
+      sharing_type: @sharing_type,
+      resource_type: @resource_type,
+      resource_id: @resource_id
     )
 
-    p cover.message
-
-    expect(cover.file).to eq('file.jpg')
+    expect(File).to exist(cover.file_url)
   end
 end

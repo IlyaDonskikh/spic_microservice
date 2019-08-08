@@ -4,10 +4,6 @@
 require 'dotenv'
 Dotenv.load
 
-Dir[File.dirname(__FILE__) + '/config/initializers/*.rb'].each do |file|
-  require file
-end
-
 ENV['RACK_ENV'] ||= 'development'
 ENV['KARAFKA_ENV'] ||= ENV['RACK_ENV']
 Bundler.require(:default, ENV['KARAFKA_ENV'])
@@ -34,6 +30,10 @@ class KarafkaApp < Karafka::App
       consumer SharingPicturesConsumer
     end
   end
+end
+
+Dir[File.dirname(__FILE__) + '/config/initializers/*.rb'].each do |file|
+  require file
 end
 
 KarafkaApp.boot!

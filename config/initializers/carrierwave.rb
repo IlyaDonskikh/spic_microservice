@@ -1,9 +1,12 @@
 require 'carrierwave'
 
 CarrierWave.configure do |config|
-  config.root = File.dirname(__FILE__) + '/public'
+  config.root = Proc.new { File.join(KarafkaApp.config.root_dir, 'public') }
 
-  unless ENV['KARAFKA_ENV'] != 'test'
+  if ENV['KARAFKA_ENV'] == 'test'
+    config.asset_host = File.join(KarafkaApp.config.root_dir, 'spec')
+    config.root = Proc.new { File.join(KarafkaApp.config.root_dir, 'spec') }
+  else
     config.fog_provider = 'fog/aws'
     config.fog_credentials = {
       provider:              'AWS',

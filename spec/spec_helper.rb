@@ -17,8 +17,14 @@
 ENV['RACK_ENV'] ||= 'test'
 
 require './karafka.rb'
+require File.join(File.dirname(__FILE__), 'helpers.rb')
 
 RSpec.configure do |config|
+  config.include Helpers
+
+  config.after :all do
+    remove_uploads_test_dir
+  end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

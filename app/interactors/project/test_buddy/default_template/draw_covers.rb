@@ -5,9 +5,9 @@ module Project
         ## Const.
         REQUIRED_FIELDS = [
           'title',
-          'list' => [ 'text', 'first' ],
+          'list' => %w(text first),
           'teams' =>
-            [ 'name', 'score', 'total' => ['won', 'lost' => 'today']],
+            [ 'name', 'score', 'total' => ['won', 'lost' => 'today']]
         ].freeze
 
         ## Etc.

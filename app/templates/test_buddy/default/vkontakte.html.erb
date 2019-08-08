@@ -1,7 +1,14 @@
+<style>
+  .hello {
+    padding: 20px;
+    background: #eee;
+  }
+</style>
+
 <div>
   <div class='hello'>
     <% 5.times do |_| %>
-      <div class='hello'><%= context.template %></div>
+      <div class='text'><%= context.template %></div>
     <% end %>
   </div>
 </div>
