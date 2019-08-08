@@ -3,6 +3,7 @@ RSpec.describe Project::TestBuddy::DefaultTemplate::DrawCovers do
     obj = Project::TestBuddy::DefaultTemplate::DrawCovers.call(
       content: [
         { 'title' => 'Hello',
+          'list' => { 'text' => 0, 'first' => 1 },
           'teams' => [
             { 'name' => 'Mike', 'score' => 8, 'total' =>
               { 'won' => 0, 'lost' => { 'today' => 5 } }

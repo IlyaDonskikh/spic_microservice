@@ -5,8 +5,9 @@ module Project
         ## Const.
         REQUIRED_FIELDS = [
           'title',
+          'list' => [ 'text', 'first' ],
           'teams' =>
-            [ 'name', 'score', 'total' => ['won', 'lost' => 'today']]
+            [ 'name', 'score', 'total' => ['won', 'lost' => 'today']],
         ].freeze
 
         ## Etc.
@@ -37,25 +38,23 @@ module Project
 
             context.fail! message: :content unless content.is_a?(Array)
 
-            REQUIRED_FIELDS.each do |field|
-              if field.is_a? String
-                content_item = content.find { |ci| ci[field] }
+            tag = 'content'
 
-                context.fail! message: "exists_#{field}" unless content_item
-              elsif field.is_a? Hash
-                check_content_existence_by(field, context.content)
-              end
-            end
+            check_content_existence_by(
+              { tag => REQUIRED_FIELDS },
+              { tag => context.content }
+            )
           end
 
           ## BEGIN. Recursion content check up
           def check_content_existence_by(item, content)
             item.each do |key, value|
-              content = find_current_content_scope_by(content, key)
+              current_content = find_current_content_scope_by(content, key)
+
               if value.is_a? String
-                check_current_content_for_string(value, content)
+                check_current_content_for_string(value, current_content)
               elsif value.is_a? Array
-                proccess_array_value(value, content)
+                proccess_array_value(value, current_content)
               end
             end
           end
