@@ -19,6 +19,7 @@ class KarafkaApp < Karafka::App
     config.client_id = ENV['KAFKA_CLIENT_ID']
     config.backend = :inline
     config.batch_fetching = true
+    config.root_dir = File.dirname(__FILE__)
   end
 
   after_init do |config|

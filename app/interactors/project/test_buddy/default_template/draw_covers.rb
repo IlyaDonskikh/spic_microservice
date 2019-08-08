@@ -14,17 +14,9 @@ module Project
         private
 
           def setup_context
-            assing_partner_attrs_by(self.class.to_s)
+            assing_project_attrs_by_class_name
 
             super
-          end
-
-          def assing_partner_attrs_by(class_name)
-            attrs = class_name.split('::')
-
-            context.partner_name = attrs[1].to_s.to_snakecase
-            context.template_name = attrs[2].to_s.gsub('Template', '').to_snakecase
-            context.content = context['content']
           end
 
           def validate
@@ -47,6 +39,7 @@ module Project
           end
 
           ## BEGIN. Recursion content check up
+          #  !REFACTOR to https://dry-rb.org/gems/dry-schema/nested-data/
           def check_content_existence_by(item, content)
             item.each do |key, value|
               current_content = find_current_content_scope_by(content, key)
