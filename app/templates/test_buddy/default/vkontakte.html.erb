@@ -1,11 +1,31 @@
 <style>
+  @import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500,700');
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Ubuntu', sans-serif;
+  }
+
+  .container {
+    position: relative;
+    width: 1020px;
+    height: 456px;
+    background-color: #592ea3;
+    background-size: cover;
+  }
+
   .hello {
     padding: 20px;
     background: #eee;
   }
 </style>
 
-<div>
+<div class="container"  style="background-image: url(<%= context.template_body['background_url'] %>)">
+  <h2><%= context.template_body['title'] %></h2>
+  <div><%= context.template_body['tagline'] %></div>
+  <img src="<%= asset_path('logo.png') %>"/>
   <div class='hello'>
     <% 5.times do |_| %>
       <div class='text'><%= context.template %></div>

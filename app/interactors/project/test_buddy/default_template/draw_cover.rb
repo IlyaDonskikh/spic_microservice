@@ -1,19 +1,20 @@
 module Project
   module TestBuddy
     module DefaultTemplate
-      class DrawCovers < ::DrawCovers
+      class DrawCover < ::DrawCover
         ## Const.
         REQUIRED_FIELDS = [
           'title',
-          'list' => %w(text first),
-          'teams' =>
-            [ 'name', 'score', 'total' => ['won', 'lost' => 'today']]
+          'tagline',
+          'background_url',
+          'info' => 'core_gems',
+          'author' => %w(name surname)
         ].freeze
 
         ## Etc.
         private
 
-          def setup_context
+          def extend_context
             assing_project_attrs_by_class_name
 
             super
@@ -26,20 +27,20 @@ module Project
           end
 
           def check_content_requirements
-            content = context.content
+            content = context.template_body
 
-            context.fail! message: :content unless content.is_a?(Array)
+            context.fail! message: :template_body unless content.is_a?(Hash)
 
             tag = 'content'
 
             check_content_existence_by(
               { tag => REQUIRED_FIELDS },
-              { tag => context.content }
+              { tag => content }
             )
           end
 
           ## BEGIN. Recursion content check up
-          #  !REFACTOR to https://dry-rb.org/gems/dry-schema/nested-data/
+          #  !REFACTOR by https://dry-rb.org/gems/dry-schema/nested-data/
           def check_content_existence_by(item, content)
             item.each do |key, value|
               current_content = find_current_content_scope_by(content, key)
