@@ -3,10 +3,10 @@ class DrawCover
 
   ## Const
   REQUIRED_FILEDS = %w(project template sharing_type resource_type resource_id).freeze
-  SHARING_TYPES = %w(vkontakte facebook).freeze
+  SHARING_TYPES = %w(facebook vkontakte).freeze
   DIMENSIONS_COVER = {
-    vkontakte: { width: 510, height: 228 },
-    facebook: { width: 600, height: 315 }
+    facebook: { width: 600, height: 315 },
+    vkontakte: { width: 510, height: 228 }
   }.freeze
 
   ## Etc.
@@ -15,6 +15,8 @@ class DrawCover
     validate
 
     create_and_process_file
+
+    produce_kafka_message
   end
 
   private
@@ -30,7 +32,7 @@ class DrawCover
         context.fail! message: "include_sharing_type"
       end
 
-      context.fail! message: "template_error" unless File.file?(template_file)
+      context.fail! message: 'template_error' unless File.file?(template_file)
     end
 
     def create_and_process_file
@@ -74,6 +76,10 @@ class DrawCover
       uploader.store! file
 
       context.file_url = uploader.url
+    end
+
+    def produce_kafka_message
+      ## Produce by responder
     end
 
     def filename

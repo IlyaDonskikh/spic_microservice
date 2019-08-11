@@ -7,8 +7,8 @@ module Project
           'title',
           'tagline',
           'background_url',
-          'info' => 'core_gems',
-          'author' => %w(name surname)
+          'info' => [{ 'core_gems' => %w(title text) }, { 'github_address' => %w(title text) }],
+          'author' => %w(firstname lastname)
         ].freeze
 
         ## Etc.

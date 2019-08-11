@@ -4,6 +4,6 @@ module Helpers
 
     return unless File.exists?(image_dir)
 
-    FileUtils.remove_dir(image_dir)
+    # FileUtils.remove_dir(image_dir)
   end
 end
