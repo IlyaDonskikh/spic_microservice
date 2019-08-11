@@ -13,6 +13,14 @@
 ## Env
 .env
 
+## Assets
+app/assets/images/*
+!app/assets/images/test_buddy
+
+## Uploads
+public/uploads/*
+spec/uploads/*
+
 ## Interactor
 app/interactors/project/*
 !app/interactors/project/test_buddy

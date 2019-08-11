@@ -80,6 +80,7 @@ GEM
     formatador (0.2.5)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
+    imgkit (1.6.2)
     interactor (3.1.1)
     ipaddress (0.8.3)
     jaro_winkler (1.5.3)
@@ -100,6 +101,7 @@ GEM
     mime-types (3.2.2)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2019.0331)
+    mini_magick (4.9.5)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
     multi_json (1.13.1)
@@ -147,6 +149,7 @@ GEM
       dry-validation (~> 0.11)
       null-logger (~> 0.1)
       ruby-kafka (>= 0.6)
+    wkhtmltoimage-binary (0.12.5)
 
 PLATFORMS
   ruby
@@ -155,10 +158,13 @@ DEPENDENCIES
   carrierwave
   dotenv
   fog-aws
+  imgkit
   interactor (~> 3.0)
   karafka (= 1.2.13)
+  mini_magick
   rspec
   rubocop
+  wkhtmltoimage-binary
 
 BUNDLED WITH
    1.17.1

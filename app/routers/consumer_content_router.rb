@@ -1,7 +1,7 @@
 class ConsumerContentRouter
   class << self
     def call
-      p 'ok'
+      ## Call draw interactor by attrs
     end
   end
 end
