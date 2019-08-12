@@ -4,6 +4,8 @@
 require 'dotenv'
 Dotenv.load
 
+require 'sidekiq'
+
 ENV['RACK_ENV'] ||= 'development'
 ENV['KARAFKA_ENV'] ||= ENV['RACK_ENV']
 Bundler.require(:default, ENV['KARAFKA_ENV'])
@@ -19,15 +21,14 @@ class KarafkaApp < Karafka::App
   end
 
   after_init do |config|
-    # Put here all the things you want to do after the Karafka framework
-    # initialization
+    # After Init
   end
 
   Karafka.monitor.subscribe(Karafka::Instrumentation::Listener)
 
   consumer_groups.draw do
-    topic :sharing_pictures do
-      consumer SharingPicturesConsumer
+    topic :spic_images_queuing do
+      consumer ImagesQueuingConsumer
     end
   end
 end

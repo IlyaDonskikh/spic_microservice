@@ -5,4 +5,8 @@ class String
                    .tr("-", "_")
                    .downcase
   end
+
+  def camelize
+    split('_').collect(&:capitalize).join
+  end
 end

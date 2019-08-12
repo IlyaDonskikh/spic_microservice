@@ -17,7 +17,10 @@
 ENV['RACK_ENV'] ||= 'test'
 
 require './karafka.rb'
+require 'sidekiq/testing'
 require File.join(File.dirname(__FILE__), 'helpers.rb')
+
+Sidekiq::Testing.inline!
 
 RSpec.configure do |config|
   config.include Helpers
