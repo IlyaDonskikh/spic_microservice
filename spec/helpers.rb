@@ -12,7 +12,6 @@ module Helpers
       .to receive(:produce_kafka_message)
   end
 
-
   def picture_template_body
     {
       'title' => 'Spic Microservice',

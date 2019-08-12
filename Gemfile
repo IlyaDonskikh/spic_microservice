@@ -9,6 +9,7 @@ gem 'imgkit'
 gem 'wkhtmltoimage-binary'
 gem 'mini_magick'
 gem 'fog-aws'
+gem 'dry-initializer'
 
 group :development, :test do
   gem 'dotenv'
