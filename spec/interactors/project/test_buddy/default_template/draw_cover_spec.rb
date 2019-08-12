@@ -5,6 +5,10 @@ RSpec.describe Project::TestBuddy::DefaultTemplate::DrawCover do
     @resource_id = 1
   end
 
+  before :each do
+    stub_kafka_responders # rspec helpers
+  end
+
   it 'should fail if has template body errors' do
     attrs = default_request_attrs.merge(template_body: wrong_template_body)
 
@@ -44,15 +48,7 @@ RSpec.describe Project::TestBuddy::DefaultTemplate::DrawCover do
     end
 
     def template_body
-      {
-        'title' => 'Spic Microservice',
-        'tagline' => 'Smart way to make sharing content',
-        'background_url' => background_url,
-        'info' => template_body_info_data,
-        'author' => [
-          { 'firstname' => 'Ilia', 'lastname' => 'Donskikh' }
-        ]
-      }
+      picture_template_body # rspec helpers
     end
 
     def wrong_template_body
@@ -62,20 +58,5 @@ RSpec.describe Project::TestBuddy::DefaultTemplate::DrawCover do
           { 'firstname' => 'Ilia', 'lastname1' => 'Donskikh' }
         ]
       )
-    end
-
-    def template_body_info_data
-      {
-        'core_gems' => {
-          'title' => 'Core Gems:',
-          'text' => 'Karafka, MiniMagic, ImgKit, Carrierwave).' },
-        'github_address' => {
-          'title' => 'Github Address:',
-          'text' => 'ilyadonskikh/spic_microservice' }
-      }
-    end
-
-    def background_url
-      'https://doniv-shared-pictures.s3.eu-central-1.amazonaws.com/spic/spic_ms_background.jpg'
     end
 end

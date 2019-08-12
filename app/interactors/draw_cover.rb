@@ -79,7 +79,18 @@ class DrawCover
     end
 
     def produce_kafka_message
-      ## Produce by responder
+      return unless context.file_url
+
+      data = {
+        project: context.project,
+        template: context.template,
+        resource_id: context.resource_id,
+        resource_type: context.resource_type,
+        file_url: context.file_url,
+        sharing_type: context.sharing_type
+      }
+
+      ImagesTrakingResponder.call(data)
     end
 
     def filename

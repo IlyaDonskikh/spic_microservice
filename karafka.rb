@@ -26,8 +26,8 @@ class KarafkaApp < Karafka::App
   Karafka.monitor.subscribe(Karafka::Instrumentation::Listener)
 
   consumer_groups.draw do
-    topic :sharing_pictures do
-      consumer SharingPicturesConsumer
+    topic :spic_images_queuing do
+      consumer ImagesQueuingConsumer
     end
   end
 end
