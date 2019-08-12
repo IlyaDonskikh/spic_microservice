@@ -121,7 +121,10 @@ class DrawCover
 
     def store_dir
       File.join(
-        context.project, context.template, context.resource_type, context.resource_id.to_s
+        context.project,
+        context.template,
+        context.resource_type.to_s.downcase,
+        context.resource_id.to_s
       )
     end
 

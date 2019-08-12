@@ -8,8 +8,8 @@ gem 'interactor', '~> 3.0'
 gem 'imgkit'
 gem 'wkhtmltoimage-binary'
 gem 'mini_magick'
-gem 'fog-aws'
 gem 'dry-initializer'
+gem 'sidekiq'
 
 group :development, :test do
   gem 'dotenv'

@@ -17,8 +17,9 @@ class ConsumerContentRouter
   private
 
     def route!
-      template_name = template.to_s.capitalize
-      class_name = "Project::#{project}::#{template_name}Template::DrawCover"
+      template = self.template.capitalize
+      project = self.project.camelize
+      class_name = "Project::#{project}::#{template}Template::DrawCover"
 
       class_name.constantize.call(content)
     end

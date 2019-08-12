@@ -36,9 +36,9 @@ RSpec.describe ConsumerContentRouter do
 
     def request_attrs
       {
-        project: 'TestBuddy',
+        project: 'test_buddy',
         template: 'default',
-        sharing_type: 'false_sharing_type',
+        sharing_type: 'facebook',
         resource_type: 'test',
         resource_id: 1,
         template_body: picture_template_body # rspec helpers
