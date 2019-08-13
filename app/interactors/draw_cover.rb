@@ -25,14 +25,14 @@ class DrawCover
 
     def validate
       REQUIRED_FILEDS.each do |field|
-        context.fail! message: "exists_#{field}" unless context[field]
+        fail! message: "exists_#{field}" unless context[field]
       end
 
-      unless SHARING_TYPES.include?(context.sharing_type)
-        context.fail! message: "include_sharing_type"
-      end
+      !SHARING_TYPES.include?(context.sharing_type) &&
+        fail!(message: 'include_sharing_type')
 
-      context.fail! message: 'template_error' unless File.file?(template_file)
+      fail! message: 'exists_template_body' unless context.template_body.is_a?(Hash)
+      fail! message: 'exists_template_files' unless File.file?(template_file)
     end
 
     def create_and_process_file
@@ -64,6 +64,8 @@ class DrawCover
       erb = ERB.new file
 
       erb.result(binding)
+    rescue
+      fail! message: 'template_render'
     end
 
     def upload(file)
@@ -133,5 +135,12 @@ class DrawCover
 
       context.project = attrs[1].to_s.to_snakecase
       context.template = attrs[2].to_s.gsub('Template', '').to_snakecase
+    end
+
+    def fail!(payload = {})
+      message = "#{self.class} #{context} Error: #{payload}"
+      Karafka.logger.error message
+
+      context.fail! payload
     end
 end

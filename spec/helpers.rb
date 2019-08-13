@@ -8,7 +8,7 @@ module Helpers
   end
 
   def stub_kafka_responders
-    allow_any_instance_of(Project::TestBuddy::DefaultTemplate::DrawCover)
+    allow_any_instance_of(DrawCover)
       .to receive(:produce_kafka_message)
   end
 

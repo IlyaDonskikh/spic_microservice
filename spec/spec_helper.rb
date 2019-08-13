@@ -21,6 +21,7 @@ require 'sidekiq/testing'
 require File.join(File.dirname(__FILE__), 'helpers.rb')
 
 Sidekiq::Testing.inline!
+Karafka.logger.level = :fatal
 
 RSpec.configure do |config|
   config.include Helpers

@@ -20,10 +20,6 @@ class KarafkaApp < Karafka::App
     config.root_dir = File.dirname(__FILE__)
   end
 
-  after_init do |config|
-    # After Init
-  end
-
   Karafka.monitor.subscribe(Karafka::Instrumentation::Listener)
 
   consumer_groups.draw do
