@@ -18,6 +18,19 @@ class KarafkaApp < Karafka::App
     config.backend = :inline
     config.batch_fetching = true
     config.root_dir = File.dirname(__FILE__)
+
+
+    if ENV['KAFKA_TRUSTED_CERT']
+      tmp_ca_file = Tempfile.new('kafka_ca_certs')
+      tmp_ca_file.write(ENV.fetch("KAFKA_TRUSTED_CERT"))
+      tmp_ca_file.close
+      config.kafka.ssl_ca_cert_file_path = tmp_ca_file.path
+    end
+
+    ENV['KAFKA_CLIENT_CERT'] &&
+      config.kafka.ssl_client_cert = ENV['KAFKA_CLIENT_CERT']
+    ENV['KAFKA_CLIENT_CERT_KEY'] &&
+      config.kafka.ssl_client_cert_key = ENV['KAFKA_CLIENT_CERT_KEY']
   end
 
   Karafka.monitor.subscribe(Karafka::Instrumentation::Listener)

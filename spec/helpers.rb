@@ -16,7 +16,7 @@ module Helpers
     {
       'title' => 'Spic Microservice',
       'tagline' => 'Smart way to make sharing content',
-      'background_url' => picture_template_body_background_url,
+      'background_url' => ENV['BACKGROUND_URL_SAMPLE'],
       'info' => picture_template_body_info_data,
       'author' => [
         { 'firstname' => 'Ilia', 'lastname' => 'Donskikh' }
@@ -28,14 +28,12 @@ module Helpers
     {
       'core_gems' => {
         'title' => 'Core Gems:',
-        'text' => 'Karafka, MiniMagic, ImgKit, Carrierwave).' },
+        'text' => 'Karafka, MiniMagic, ImgKit, Carrierwave, Sidekiq'
+      },
       'github_address' => {
         'title' => 'Github Address:',
-        'text' => 'ilyadonskikh/spic_microservice' }
+        'text' => 'ilyadonskikh/spic_microservice'
+      }
     }
-  end
-
-  def picture_template_body_background_url
-    'https://doniv-shared-pictures.s3.eu-central-1.amazonaws.com/spic/spic_ms_background.jpg'
   end
 end

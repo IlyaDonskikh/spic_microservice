@@ -25,4 +25,4 @@ spec/uploads/*
 
 ## Templates
 app/templates/*
-!app/templates/test_buddy
+!app/templates/test_buddy/default
