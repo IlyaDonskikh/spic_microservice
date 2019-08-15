@@ -84,13 +84,12 @@ class DrawCover
       return unless context.file_url
 
       data = {
-        project: context.project,
-        template: context.template,
-        resource_id: context.resource_id,
-        resource_type: context.resource_type,
-        file_url: context.file_url,
-        sharing_type: context.sharing_type
+        project: context.project,           template: context.template,
+        resource_id: context.resource_id,   resource_type: context.resource_type,
+        file_url: context.file_url,         sharing_type: context.sharing_type
       }
+
+      reattach_cert
 
       ImagesTrakingResponder.call(data)
     end
@@ -142,5 +141,19 @@ class DrawCover
       Karafka.logger.error message
 
       context.fail! payload
+    end
+
+    def reattach_cert
+      ## Temporary solution. Need to find a way to pass certificate file to sidekiq
+      cert_file_exists = File.exists?(KarafkaApp.config.kafka.ssl_ca_cert_file_path)
+
+      return if !ENV['KAFKA_TRUSTED_CERT'] || cert_file_exists
+
+      path = File.join(KarafkaApp.config.root_dir, 'tmp')
+      tmp_ca_file = Tempfile.new('kafka_ca_certs', path)
+      tmp_ca_file.write(ENV.fetch("KAFKA_TRUSTED_CERT"))
+      tmp_ca_file.close
+
+      DeliveryBoy.config.ssl_ca_cert_file_path = tmp_ca_file.path
     end
 end

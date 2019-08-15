@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 # Setup
-require 'dotenv'
-Dotenv.load
+if ENV['RACK_ENV'] != 'production'
+  require 'dotenv'
+  Dotenv.load
+end
 
 require 'sidekiq'
 
@@ -17,16 +19,27 @@ class KarafkaApp < Karafka::App
     config.client_id = ENV['KAFKA_CLIENT_ID']
     config.backend = :inline
     config.batch_fetching = true
-    config.topic_mapper = KarafkaTopicMapper.new ENV['KAFKA_TOPIC_PREFIX'].to_s
+
+    if ENV['KAFKA_TOPIC_PREFIX']
+      config.topic_mapper = KarafkaTopicMapper.new ENV['KAFKA_TOPIC_PREFIX'].to_s
+      config.consumer_mapper = proc { |name| "#{ENV['KAFKA_TOPIC_PREFIX']}#{name}" }
+    end
+
     config.root_dir = File.dirname(__FILE__)
+
+    ENV['KAFKA_SSL_CERT_FROM_SYSTEM'] &&
+      config.kafka.ssl_ca_certs_from_system = true
+
     ENV['KAFKA_USERNAME'] &&
-      config.sasl_plain_username = ENV['KAFKA_USERNAME']
+      config.kafka.sasl_scram_username = ENV['KAFKA_USERNAME']
     ENV['KAFKA_PASSWORD'] &&
-      config.sasl_plain_password = ENV['KAFKA_PASSWORD']
+      config.kafka.sasl_scram_password = ENV['KAFKA_PASSWORD']
+    ENV['KAFKA_MECHANISM'] &&
+      config.kafka.sasl_scram_mechanism = ENV['KAFKA_MECHANISM']
 
     if ENV['KAFKA_TRUSTED_CERT']
       tmp_ca_file = Tempfile.new('kafka_ca_certs')
-      tmp_ca_file.write(ENV.fetch("KAFKA_TRUSTED_CERT"))
+      tmp_ca_file.write(ENV.fetch('KAFKA_TRUSTED_CERT'))
       tmp_ca_file.close
       config.kafka.ssl_ca_cert_file_path = tmp_ca_file.path
     end
