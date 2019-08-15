@@ -17,8 +17,12 @@ class KarafkaApp < Karafka::App
     config.client_id = ENV['KAFKA_CLIENT_ID']
     config.backend = :inline
     config.batch_fetching = true
+    config.topic_mapper = KarafkaTopicMapper.new ENV['KAFKA_TOPIC_PREFIX'].to_s
     config.root_dir = File.dirname(__FILE__)
-
+    ENV['KAFKA_USERNAME'] &&
+      config.sasl_plain_username = ENV['KAFKA_USERNAME']
+    ENV['KAFKA_PASSWORD'] &&
+      config.sasl_plain_password = ENV['KAFKA_PASSWORD']
 
     if ENV['KAFKA_TRUSTED_CERT']
       tmp_ca_file = Tempfile.new('kafka_ca_certs')
