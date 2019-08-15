@@ -81,8 +81,8 @@ Before you run Spic you need to be informed about some required and optional env
 
 #### Optional parameters
 
-* `KAFKA_TRUSTED_CERT`, `KAFKA_CLIENT_CERT`, `KAFKA_CLIENT_CERT_KEY`, `KAFKA_USERNAME`, `KAFKA_PASSWORD`, `KAFKA_TOPIC_PREFIX` - The parameters are required to connect the Kafka via a certificate. Read more about this in the Deploy section.
-* `REDIS_URL` - Address for connecting to Redis server.
+* `RACK_ENV` - application enviroment (default: `developer`).
+* `KAFKA_TRUSTED_CERT`, `KAFKA_CLIENT_CERT`, `KAFKA_CLIENT_CERT_KEY`, `KAFKA_USERNAME`, `KAFKA_PASSWORD`, `KAFKA_TOPIC_PREFIX`, `KAFKA_MECHANISM`, `KAFKA_SSL_CERT_FROM_SYSTEM` - depending on your connection to Kafka server, you may need some of these settings.
 * `BACKGROUND_URL_SAMPLE` - address to the file used in the tests as the background image of templates.
 
 **Additional information**
