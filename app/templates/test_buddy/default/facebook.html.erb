@@ -1,0 +1,107 @@
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,500,700');
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Ubuntu', sans-serif;
+  }
+
+  .layer {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    background-color: #592ea3;
+    background-size: cover;
+  }
+
+  .layer__container {
+    position: relative;
+    height: 100%;
+    padding: 0 20px;
+  }
+
+  .header {
+    padding-top: 20px;
+  }
+
+  .header__tagline {
+    background: #FFF;
+    max-width: 460px;
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 1.25em;
+    padding: 10px 20px 12px;
+  }
+
+  .header__brand {
+    padding-top: 20px;
+  }
+
+  .header-brand {
+    height: 32px;
+  }
+
+  .header-brand-logo {
+    display: block;
+    height: 32px;
+    float: left;
+    padding-right: 16px;
+  }
+
+  .header-brand-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 31px;
+  }
+
+  .content {
+    position: absolute;
+    bottom: 20px;
+    color: #fff;
+  }
+
+  .content-item {
+    font-size: 28px;
+    padding-top: 14px;
+    max-width: 410px;
+    line-height: 1.5em;
+  }
+
+  .content-item-title {
+    font-weight: bold;
+  }
+</style>
+
+<div class="layer"  style="background-image: url(<%= context.template_body['background_url'] %>)">
+  <div class="layer__container">
+    <div class="header">
+      <div class="header__tagline"><%= context.template_body['tagline'] %></div>
+
+      <div class="header-brand header__brand">
+        <img class="header-brand-logo" src="<%= asset_path('header-logo.png') %>"/>
+        <div class="header-brand-title"><%= context.template_body['title'] %></div>
+      </div>
+    </div>
+
+    <div class='content'>
+      <% context.template_body['info'].each do |_, value| %>
+        <div class='content-item'>
+          <div class="content-item-title"><%= value['title'] %></div>
+          <div class="content-item-content"><%= value['text'] %></div>
+        </div>
+      <% end %>
+
+      <% context.template_body['author'].each do |item| %>
+        <div class='content-item'>
+          <div class="content-item-title">Author:</div>
+          <div class="content-item-content"><%= "#{item['firstname']} #{item['lastname']}" %></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

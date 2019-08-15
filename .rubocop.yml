@@ -1,0 +1,36 @@
+AllCops:
+  TargetRubyVersion: 2.3
+  Exclude:
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+    - 'db/**/*.rb'
+    - 'config/**/*.rb'
+    - 'bin/**/*'
+    - 'log/**/*'
+    - 'app/views/**/*'
+    - 'node_modules/**/*'
+  DisplayCopNames: true
+  StyleGuideCopsOnly: true
+
+Metrics/LineLength:
+  Max: 100
+
+Style/Documentation:
+  Enabled: false
+
+Lint/AmbiguousOperator:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: ()
+    '%w': '()'
+
+Layout/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods
+
+Style/StringLiterals:
+  Enabled: false
