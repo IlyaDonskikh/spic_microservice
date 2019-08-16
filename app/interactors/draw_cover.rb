@@ -89,6 +89,8 @@ class DrawCover
         file_url: context.file_url,         sharing_type: context.sharing_type
       }
 
+      reattach_cert
+
       ImagesTrakingResponder.call(data)
     end
 
@@ -139,5 +141,18 @@ class DrawCover
       Karafka.logger.error message
 
       context.fail! payload
+    end
+
+    def reattach_cert
+      ## Heroku fix
+      file_path = KarafkaApp.config.kafka.ssl_ca_cert_file_path
+
+      return if !file_path || File.exists?(file_path)
+
+      tmp_ca_file = CertificateBuilder.call(
+        'ca_certs', ENV.fetch("KAFKA_TRUSTED_CERT"), file_path
+      )
+
+      DeliveryBoy.config.ssl_ca_cert_file_path = tmp_ca_file
     end
 end
