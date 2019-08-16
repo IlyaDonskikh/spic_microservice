@@ -27,6 +27,8 @@ class KarafkaApp < Karafka::App
       config.consumer_mapper = proc { |name| "#{ENV['KAFKA_TOPIC_PREFIX']}#{name}" }
     end
 
+    config.kafka.start_from_beginning = false
+
     ENV['KAFKA_SSL_CERT_FROM_SYSTEM'] &&
       config.kafka.ssl_ca_certs_from_system = true
 
