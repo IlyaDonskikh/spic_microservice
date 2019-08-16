@@ -15,6 +15,7 @@ Karafka::Loader.load(Karafka::App.root)
 
 class KarafkaApp < Karafka::App
   setup do |config|
+    config.root_dir = File.dirname(__FILE__)
     config.kafka.seed_brokers = ENV['KAFKA_SEED_BROKERS'].try(:split, ',')
     config.client_id = ENV['KAFKA_CLIENT_ID']
     config.backend = :inline
@@ -24,8 +25,6 @@ class KarafkaApp < Karafka::App
       config.topic_mapper = KarafkaTopicMapper.new ENV['KAFKA_TOPIC_PREFIX'].to_s
       config.consumer_mapper = proc { |name| "#{ENV['KAFKA_TOPIC_PREFIX']}#{name}" }
     end
-
-    config.root_dir = File.dirname(__FILE__)
 
     ENV['KAFKA_SSL_CERT_FROM_SYSTEM'] &&
       config.kafka.ssl_ca_certs_from_system = true
@@ -38,10 +37,13 @@ class KarafkaApp < Karafka::App
       config.kafka.sasl_scram_mechanism = ENV['KAFKA_MECHANISM']
 
     if ENV['KAFKA_TRUSTED_CERT']
-      tmp_ca_file = Tempfile.new('kafka_ca_certs')
-      tmp_ca_file.write(ENV.fetch('KAFKA_TRUSTED_CERT'))
-      tmp_ca_file.close
-      config.kafka.ssl_ca_cert_file_path = tmp_ca_file.path
+      cert_path = CertificateBuilder.call(
+        'kafka_ca_certs',
+        ENV.fetch('KAFKA_TRUSTED_CERT'),
+        config.kafka.ssl_ca_cert_file_path
+      )
+
+      config.kafka.ssl_ca_cert_file_path = cert_path
     end
 
     ENV['KAFKA_CLIENT_CERT'] &&

@@ -149,11 +149,12 @@ class DrawCover
 
       return if !ENV['KAFKA_TRUSTED_CERT'] || cert_file_exists
 
-      path = File.join(KarafkaApp.config.root_dir, 'tmp')
-      tmp_ca_file = Tempfile.new('kafka_ca_certs', path)
-      tmp_ca_file.write(ENV.fetch("KAFKA_TRUSTED_CERT"))
-      tmp_ca_file.close
+      cert_path = CertificateBuilder.call(
+        'kafka_ca_certs',
+        ENV.fetch('KAFKA_TRUSTED_CERT'),
+        config.kafka.ssl_ca_cert_file_path
+      )
 
-      DeliveryBoy.config.ssl_ca_cert_file_path = tmp_ca_file.path
+      DeliveryBoy.config.ssl_ca_cert_file_path = cert_path
     end
 end
