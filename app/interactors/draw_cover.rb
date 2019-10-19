@@ -14,9 +14,9 @@ class DrawCover
     extend_context
     validate
 
-    create_and_process_file
+    create_and_process_file!
 
-    produce_kafka_message
+    produce_kafka_message!
   end
 
   private
@@ -35,7 +35,7 @@ class DrawCover
       fail! message: 'exists_template_files' unless File.file?(template_file)
     end
 
-    def create_and_process_file
+    def create_and_process_file!
       jpeg = create_jpeg_by read_template
       file = save_to_file jpeg
 
@@ -80,7 +80,7 @@ class DrawCover
       context.file_url = uploader.url
     end
 
-    def produce_kafka_message
+    def produce_kafka_message!
       return unless context.file_url
 
       data = {

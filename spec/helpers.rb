@@ -9,7 +9,7 @@ module Helpers
 
   def stub_kafka_responders
     allow_any_instance_of(DrawCover)
-      .to receive(:produce_kafka_message)
+      .to receive(:produce_kafka_message!)
   end
 
   def picture_template_body
